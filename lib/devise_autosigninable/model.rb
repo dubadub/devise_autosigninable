@@ -71,17 +71,16 @@ module Devise
         RETRY_COUNT = 20
 
         # Generate autosignin tokens unless already exists and save the records.
-        def ensure_all_autosignin_tokens(batch_size=500)
-          user_count = count(:conditions => { :autosignin_token => nil })
-          find_in_batches(:batch_size => batch_size,
-                          :conditions => {
-                            :autosignin_token => nil }) do |group|
+        def ensure_all_autosignin_tokens(batch_size = 500)
+          data = where(:autosignin_token => nil)
+          user_count = data.size
+          data.find_in_batches(:batch_size => batch_size) do |group|
             group.each { |user| user.ensure_autosignin_token! }
           end
         end
 
         # Generate autosignin tokens and save the records.
-        def reset_all_autosignin_tokens(batch_size=500)
+        def reset_all_autosignin_tokens(batch_size = 500)
           user_count = count
           find_in_batches(:batch_size => batch_size) do |group|
             group.each { |user| user.reset_autosignin_token! }

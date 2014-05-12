@@ -19,7 +19,7 @@ class DeviseAutosigninableGenerator < Rails::Generators::NamedBase
 
   def copy_migration
       migration_template 'migration.rb',
-                         "db/migrate/add_autosigninable_to_#{table_name}"
+                         "db/migrate/add_autosigninable_to_#{table_name}.rb"
   end
 
 end
